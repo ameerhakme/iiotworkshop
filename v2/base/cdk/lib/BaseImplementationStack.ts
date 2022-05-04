@@ -175,7 +175,7 @@ export class BaseImplementationStack extends cdk.Stack {
     
     greengrassDeployment.addComponent({
       "aws.greengrass.LocalDebugConsole": {
-        componentVersion: "2.2.3",
+        componentVersion: "2.2.2",
         configurationUpdate: {
           merge: JSON.stringify({
             httpsEnabled: "false"
