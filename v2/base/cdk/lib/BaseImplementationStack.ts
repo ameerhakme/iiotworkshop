@@ -13,6 +13,16 @@ import { IotThingGroup } from "./IotThingGroup/IotThingGroup"
 import { GreengrassV2Component } from "./GreengrassV2Component/GreengrassV2Component"
 import { GreengrassV2Deployment } from "./GreengrassV2Deployment/GreengrassV2Deployment"
 import * as myConst from "./Constants"
+import {
+  Stack,
+  StackProps,
+  CfnOutput,
+  aws_ec2 as ec2,
+  aws_iam as iam,
+  aws_iotsitewise as sitewise,
+  aws_s3_assets as s3_assets,
+  aws_s3_deployment as s3_deployment
+} from "aws-cdk-lib";
 
 export class BaseImplementationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?:cdk.StackProps) {
@@ -130,48 +140,6 @@ export class BaseImplementationStack extends cdk.Stack {
     deploymentGroup.addThing(iotThingCertPol.thingArn)
 
     // Greengrass component process
-
-       // Create sitewise gateway
-       const sitewise_gateway = new sitewise.CfnGateway(
-        this,
-        "SitewiseGateway",
-        {
-            gatewayName: `${iot_thing_cert_policy.thingName}-Gateway`,
-            gatewayPlatform: {
-                greengrassV2: {
-                    coreDeviceThingName: iot_thing_cert_policy.thingName
-                }
-            },
-            gatewayCapabilitySummaries: [
-                {
-                    capabilityNamespace: "iotsitewise:opcuacollector:2",
-                    capabilityConfiguration: JSON.stringify({
-                        sources: [{
-                            name: "Node-Red OPC-UA Server",
-                            endpoint: {
-                                certificateTrust: { type: "TrustAny" },
-                                endpointUri: "opc.tcp://localhost:54845",
-                                securityPolicy: "NONE",
-                                messageSecurityMode: "NONE",
-                                identityProvider: { type: "Anonymous" },
-                                nodeFilterRules:[]
-                            },
-                            measurementDataStreamPrefix: ""
-                        }]
-                    })
-                },
-                {
-                    capabilityNamespace: "iotsitewise:publisher:2",
-                    capabilityConfiguration: JSON.stringify({
-                        SiteWisePublisherConfiguration: {
-                            publishingOrder: "TIME_ORDER"
-                        }
-                    })
-                },
-            ]
-        }
-    );
-
     // Create the deployment with AWS public and stack components, target the thing group
     // and add the components/version/updates
     const greengrass_deployment = new GreengrassV2Deployment(this, "GreengrassDeployment", {
@@ -186,7 +154,6 @@ export class BaseImplementationStack extends cdk.Stack {
             "aws.greengrass.StreamManager": { componentVersion: "2.0.14" }
         }
     });
-    greengrass_deployment.node.addDependency(sitewise_gateway);
 
     greengrass_deployment.addComponent({
         "aws.greengrass.LocalDebugConsole": {
