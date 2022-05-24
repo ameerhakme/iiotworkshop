@@ -152,32 +152,16 @@ export class BaseImplementationStack extends cdk.Stack {
       targetArn: deploymentGroup.thingGroupArn,
       deploymentName: `${this.stackName} - Example deployment`,
       component: {
-        // accelerator component(s)
-        [helloWorldComponent.componentName]: {
-          componentVersion: helloWorldComponent.componentVersion,
-          configurationUpdate: {
-            merge: JSON.stringify({
-              Message: "Welcome from the Greengrass accelerator stack"
-            })
-          }
-        }
-      }
+        // Add core public components
+        "aws.greengrass.Nucleus": { componentVersion: "2.5.5" },
+        "aws.greengrass.Cli": { componentVersion: "2.5.5" },
+        "aws.iot.SiteWiseEdgeCollectorOpcua": { componentVersion: "2.1.1" },
+        "aws.iot.SiteWiseEdgePublisher": { componentVersion: "2.1.4" },
+        "aws.greengrass.StreamManager": { componentVersion: "2.0.14" }
+    }
+      
     })
-    // Add core public components
-    greengrassDeployment.addComponent({
-      "aws.greengrass.Nucleus": {
-        componentVersion: "2.5.5"
-      },
-      "aws.greengrass.Cli": {
-        componentVersion: "2.5.5"
-      }, 
-      "aws.iot.SiteWiseEdgeCollectorOpcua":{
-        componentVersion: "2.1.3"
-      },
-      "aws.iot.SiteWiseEdgePublisher":{
-        componentVersion: "2.1.4"
-      }
-    })
+
     
 
     // Set stack outputs to be consumed by local processes
