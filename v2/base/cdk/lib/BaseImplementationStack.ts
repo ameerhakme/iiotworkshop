@@ -138,7 +138,9 @@ export class BaseImplementationStack extends cdk.Stack {
       component:{
         // Add core public components
         "aws.greengrass.Nucleus": { componentVersion: "2.5.5"},
-        "aws.greengrass.Cli": { componentVersion: "2.5.5" }
+        "aws.greengrass.Cli": { componentVersion: "2.5.5" },
+        "aws.iot.SiteWiseEdgeCollectorOpcua": { componentVersion: "2.1.1" },
+        "aws.iot.SiteWiseEdgePublisher": { componentVersion: "2.1.4" }
     }
     })
 
