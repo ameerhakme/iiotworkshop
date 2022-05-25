@@ -132,29 +132,19 @@ export class BaseImplementationStack extends cdk.Stack {
     // Greengrass component process
     // Create the deployment with AWS public and stack components, target the thing group
     // and add the components/version/updates
-    const greengrass_deployment = new GreengrassV2Deployment(this, "GreengrassDeployment", {
-        targetArn: deploymentGroup.thingGroupArn,
-        deploymentName: `${this.stackName} - Example deployment`,
-        component: {
-            // Add core public components
-            "aws.greengrass.Nucleus": { componentVersion: "2.5.5" },
-            "aws.greengrass.Cli": { componentVersion: "2.5.5" },
-            "aws.iot.SiteWiseEdgeCollectorOpcua": { componentVersion: "2.1.1" },
-            "aws.iot.SiteWiseEdgePublisher": { componentVersion: "2.1.4" },
-            "aws.greengrass.StreamManager": { componentVersion: "2.0.14" }
-        }
-    });
+    const greengrassDeployment = new GreengrassV2Deployment(this, "GreengrassDeployment", {
+      targetArn: deploymentGroup.thingGroupArn,
+      deploymentName: `${this.stackName} - Example deployment`,
+      component:{
+        // Add core public components
+        "aws.greengrass.Nucleus": { componentVersion: "2.5.5" },
+        "aws.greengrass.Cli": { componentVersion: "2.5.5" },
+        "aws.iot.SiteWiseEdgeCollectorOpcua": { componentVersion: "2.1.1" },
+        "aws.iot.SiteWiseEdgePublisher": { componentVersion: "2.1.4" },
+        "aws.greengrass.StreamManager": { componentVersion: "2.0.14" }
+    }
+    })
 
-    greengrass_deployment.addComponent({
-        "aws.greengrass.LocalDebugConsole": {
-            componentVersion: "2.2.3",
-            configurationUpdate: {
-                merge: JSON.stringify({ httpsEnabled: "false" })
-            }
-        }
-    });
-
-    
 
     // Set stack outputs to be consumed by local processes
     new cdk.CfnOutput(this, "ComponentBucketArn", {
