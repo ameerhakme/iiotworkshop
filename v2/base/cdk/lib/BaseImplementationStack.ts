@@ -137,11 +137,8 @@ export class BaseImplementationStack extends cdk.Stack {
       deploymentName: `${this.stackName} - Example deployment`,
       component:{
         // Add core public components
-        "aws.greengrass.Nucleus": { componentVersion: "2.4.0"},
-        "aws.greengrass.Cli": { componentVersion: "2.4.0" },
-        "aws.iot.SiteWiseEdgeCollectorOpcua": { componentVersion: "2.1.1" },
-        "aws.iot.SiteWiseEdgePublisher": { componentVersion: "2.1.4" },
-        "aws.greengrass.StreamManager": { componentVersion: "2.0.14" }
+        "aws.greengrass.Nucleus": { componentVersion: "2.5.5"},
+        "aws.greengrass.Cli": { componentVersion: "2.5.5" }
     }
     })
 
