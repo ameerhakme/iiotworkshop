@@ -46,6 +46,11 @@ export const greengrassCoreMinimalIoTPolicy = `{
       "Effect": "Allow",
       "Action": ["greengrass:GetComponentVersionArtifact", "greengrass:ResolveComponentCandidates", "greengrass:GetDeploymentConfiguration"],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*"
     }
   ]
 }`
