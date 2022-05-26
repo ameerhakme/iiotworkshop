@@ -12,26 +12,25 @@ export const greengrassCoreMinimalIoTPolicy = `{
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": ["iot:Connect"],
-      "Resource": "arn:aws:iot:<%= region %>:<%= account %>:client/<%= thingname %>*"
+      "Action": [
+        "iot:Connect"
+      ],
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
-      "Action": ["iot:Receive", "iot:Publish"],
-      "Resource": [
-        "arn:aws:iot:<%= region %>:<%= account %>:topic/$aws/things/<%= thingname %>*/greengrass/health/json",
-        "arn:aws:iot:<%= region %>:<%= account %>:topic/$aws/things/<%= thingname %>*/greengrassv2/health/json",
-        "arn:aws:iot:<%= region %>:<%= account %>:topic/$aws/things/<%= thingname %>*/jobs/*",
-        "arn:aws:iot:<%= region %>:<%= account %>:topic/$aws/things/<%= thingname %>*/shadow/*"
-      ]
+      "Action": [
+        "iot:Receive",
+        "iot:Publish"
+      ],
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
-      "Action": ["iot:Subscribe"],
-      "Resource": [
-        "arn:aws:iot:<%= region %>:<%= account %>:topicfilter/$aws/things/<%= thingname %>*/jobs/*",
-        "arn:aws:iot:<%= region %>:<%= account %>:topicfilter/$aws/things/<%= thingname %>*/shadow/*"
-      ]
+      "Action": [
+        "iot:Subscribe"
+      ],
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
