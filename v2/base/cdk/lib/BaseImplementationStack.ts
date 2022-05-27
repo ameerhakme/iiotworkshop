@@ -13,6 +13,16 @@ import { IotThingGroup } from "./IotThingGroup/IotThingGroup"
 import { GreengrassV2Component } from "./GreengrassV2Component/GreengrassV2Component"
 import { GreengrassV2Deployment } from "./GreengrassV2Deployment/GreengrassV2Deployment"
 import * as myConst from "./Constants"
+import {
+  Stack,
+  StackProps,
+  CfnOutput,
+  aws_ec2 as ec2,
+  aws_iam as iam,
+  aws_iotsitewise as sitewise,
+  aws_s3_assets as s3_assets,
+  aws_s3_deployment as s3_deployment
+} from "aws-cdk-lib";
 
 export class BaseImplementationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?:cdk.StackProps) {
@@ -137,7 +147,7 @@ export class BaseImplementationStack extends cdk.Stack {
           gatewayName: `${this.stackName}-Gateway`,
           gatewayPlatform: {
               greengrassV2: {
-                  coreDeviceThingName: iotThingCertPol.thingName
+                  coreDeviceThingName: greengrassCoreThingName
               }
           },
           gatewayCapabilitySummaries: [
