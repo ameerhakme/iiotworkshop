@@ -137,7 +137,7 @@ export class BaseImplementationStack extends cdk.Stack {
           gatewayName: `${this.stackName}-Gateway`,
           gatewayPlatform: {
               greengrassV2: {
-                  coreDeviceThingName: greengrassCoreThingName
+                  coreDeviceThingName: iotThingCertPol.thingName
               }
           },
           gatewayCapabilitySummaries: [
