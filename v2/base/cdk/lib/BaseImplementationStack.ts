@@ -128,7 +128,47 @@ export class BaseImplementationStack extends cdk.Stack {
       thingGroupName: groupName
     })
     deploymentGroup.addThing(iotThingCertPol.thingArn)
-
+    
+    // Create sitewise gateway
+    const sitewise_gateway = new sitewise.CfnGateway(
+      this,
+      "SitewiseGateway",
+      {
+          gatewayName: `${this.stackName}-Gateway`,
+          gatewayPlatform: {
+              greengrassV2: {
+                  coreDeviceThingName: greengrassCoreThingName
+              }
+          },
+          gatewayCapabilitySummaries: [
+              {
+                  capabilityNamespace: "iotsitewise:opcuacollector:2",
+                  capabilityConfiguration: JSON.stringify({
+                      sources: [{
+                          name: "Ignition OPC-UA Server",
+                          endpoint: {
+                              certificateTrust: { type: "TrustAny" },
+                              endpointUri: "opc.tcp://44.195.80.138:62541",
+                              securityPolicy: "NONE",
+                              messageSecurityMode: "NONE",
+                              identityProvider: { type: "Anonymous" },
+                              nodeFilterRules:[]
+                          },
+                          measurementDataStreamPrefix: ""
+                      }]
+                  })
+              },
+              {
+                  capabilityNamespace: "iotsitewise:publisher:2",
+                  capabilityConfiguration: JSON.stringify({
+                      SiteWisePublisherConfiguration: {
+                          publishingOrder: "TIME_ORDER"
+                      }
+                  })
+              },
+          ]
+      }
+  );    
     // Greengrass component process
     // Create the deployment with AWS public and stack components, target the thing group
     // and add the components/version/updates
