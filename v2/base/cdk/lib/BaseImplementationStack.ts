@@ -21,11 +21,14 @@ import {
   aws_iotsitewise as sitewise,
   aws_s3_assets as s3_assets,
   aws_s3_deployment as s3_deployment
-} from "aws-cdk-lib";
+} from "aws-cdk-lib"
+import * as cfninc from 'aws-cdk-lib/cloudformation-include'
 
 export class BaseImplementationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?:cdk.StackProps) {
     super(scope, id, props)
+
+    const IgnitionOpcUaEndpoint = cdk.Fn.importValue(iiot-IgnitionServer-19Z6HA2AE8W3R:IgnitionOpcUaEndpoint)
 
     const stackName = cdk.Stack.of(this).stackName
     if (stackName.length > 20) {
@@ -62,7 +65,8 @@ export class BaseImplementationStack extends cdk.Stack {
             "iot:Publish",
             "iot:Subscribe",
             "iot:Receive",
-            "s3:GetBucketLocation"
+            "s3:GetBucketLocation",
+            "iotsitewise:BatchPutAssetPropertyValue"
           ],
           resources: ["*"]
         }),
@@ -138,6 +142,7 @@ export class BaseImplementationStack extends cdk.Stack {
     })
     deploymentGroup.addThing(iotThingCertPol.thingArn)
     
+    const ImportedOPCUAServerIP = 
     // Create sitewise gateway
     const sitewise_gateway = new sitewise.CfnGateway(
       this,
@@ -157,7 +162,7 @@ export class BaseImplementationStack extends cdk.Stack {
                           name: "Ignition OPC-UA Server",
                           endpoint: {
                               certificateTrust: { type: "TrustAny" },
-                              endpointUri: "opc.tcp://44.195.80.138:62541",
+                              endpointUri: IgnitionOpcUaEndpoint,
                               securityPolicy: "NONE",
                               messageSecurityMode: "NONE",
                               identityProvider: { type: "Anonymous" },
