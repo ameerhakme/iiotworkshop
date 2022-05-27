@@ -28,7 +28,7 @@ export class BaseImplementationStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?:cdk.StackProps) {
     super(scope, id, props)
 
-    const IgnitionOpcUaEndpoint = cdk.Fn.importValue(iiot-IgnitionServer-19Z6HA2AE8W3R:IgnitionOpcUaEndpoint)
+    const IgnitionOpcUaEndpoint = cdk.Fn.importValue('iiot-IgnitionServer-19Z6HA2AE8W3R:IgnitionOpcUaEndpoint')
 
     const stackName = cdk.Stack.of(this).stackName
     if (stackName.length > 20) {
