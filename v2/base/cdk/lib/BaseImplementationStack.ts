@@ -142,7 +142,6 @@ export class BaseImplementationStack extends cdk.Stack {
     })
     deploymentGroup.addThing(iotThingCertPol.thingArn)
     
-    const ImportedOPCUAServerIP = 
     // Create sitewise gateway
     const sitewise_gateway = new sitewise.CfnGateway(
       this,
