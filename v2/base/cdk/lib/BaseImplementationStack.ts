@@ -18,7 +18,6 @@ import {
   StackProps,
   CfnOutput,
   aws_ec2 as ec2,
-  aws_iam as iam,
   aws_iotsitewise as sitewise,
   aws_s3_assets as s3_assets,
   aws_s3_deployment as s3_deployment
