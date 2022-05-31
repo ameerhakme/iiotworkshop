@@ -123,7 +123,7 @@ def read_manifest():
     as an artifact object with a type of aws:cloudformation:stack
 
     """
-    manifest_file = Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/cdk/cdk.out/manifest.json")
+    manifest_file = Path("/home/ec2-user/tmp/cdk.out/manifest.json")
     if manifest_file.is_file():
         with open(manifest_file) as f:
             manifest = f.read()
