@@ -1,6 +1,6 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
-#!/usr/bin/env python
+
 import os
 import sys
 import argparse
@@ -58,11 +58,11 @@ def verify_cwd():
     https://unix.stackexchange.com/questions/367008/why-is-socket-path-length-limited-to-a-hundred-chars
     """
 
-    # check for sibling level directories and ../cdk
-    docker_assets_path = Path("./volumes")
+    # check for sibling level directories and /home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/cdk
+    docker_assets_path = Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes")
     if not os.path.exists(docker_assets_path):
         print(
-            f"Could not find directory './volumes/, run this script from the 'docker/' directory. 'python3 config_docker.py' "
+            f"Could not find directory '/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/, run this script from the 'docker/' directory. 'python3 config_docker.py' "
         )
         sys.exit(1)
     # Determine current file path length and determine if full path to ipc.socket
@@ -123,7 +123,7 @@ def read_manifest():
     as an artifact object with a type of aws:cloudformation:stack
 
     """
-    manifest_file = Path("../cdk/cdk.out/manifest.json")
+    manifest_file = Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/cdk/cdk.out/manifest.json")
     if manifest_file.is_file():
         with open(manifest_file) as f:
             manifest = f.read()
@@ -179,13 +179,13 @@ if __name__ == "__main__":
     # Confirm profile given as parameters
     args = parser.parse_args()
     docker_config_directories = [
-        "./volumes/certs",
-        "./volumes/config",
-        "./volumes/gg_root",
+        "/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/certs",
+        "/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/config",
+        "/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/gg_root",
     ]
     template_files = [
-        "./templates/config.yaml.template",
-        "./templates/docker-compose.yaml.template",
+        "/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/templates/config.yaml.template",
+        "/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/templates/docker-compose.yaml.template",
     ]
     config_values = {}
 
@@ -245,25 +245,25 @@ if __name__ == "__main__":
 
     # process template files
     config_template = replace_variables(
-        file="./templates/config.yaml.template", map=config_values
+        file="/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/templates/config.yaml.template", map=config_values
     )
     docker_compose_template = replace_variables(
-        file="./templates/docker-compose.yml.template", map=config_values
+        file="/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/templates/docker-compose.yml.template", map=config_values
     )
 
     # Write the files!
-    with open(Path("./volumes/certs/device.pem.crt"), "w") as f:
+    with open(Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/certs/device.pem.crt"), "w") as f:
         f.write(certificate_pem)
-    with open(Path("./volumes/certs/private.pem.key"), "w") as f:
+    with open(Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/certs/private.pem.key"), "w") as f:
         f.write(private_key_pem)
-    with open(Path("./volumes/certs/AmazonRootCA1.pem"), "w") as f:
+    with open(Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/certs/AmazonRootCA1.pem"), "w") as f:
         f.write(root_ca_pem)
-    with open(Path("./volumes/config/config.yaml"), "w") as f:
+    with open(Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/volumes/config/config.yaml"), "w") as f:
         f.write(config_template)
-    with open(Path("./docker-compose.yml"), "w") as f:
+    with open(Path("/home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/docker-compose.yml"), "w") as f:
         f.write(docker_compose_template)
 
 # with both valid, write:
 #  cert, key, rootca to volumes/certs/
 #  config to volumes/config/
-#  docker-compose.yml to ./
+#  docker-compose.yml to /home/ec2-user/environment/aws-iot-greengrass-accelerators/v2/base/docker/
