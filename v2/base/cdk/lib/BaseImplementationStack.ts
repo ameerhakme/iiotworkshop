@@ -174,7 +174,7 @@ export class BaseImplementationStack extends cdk.Stack {
                   capabilityNamespace: "iotsitewise:opcuacollector:2",
                   capabilityConfiguration: JSON.stringify({
                       sources: [{
-                          name: "Ignition OPC-UA Server",
+                          name: "IginitionOPCUAServer",
                           endpoint: {
                               certificateTrust: { type: "TrustAny" },
                               endpointUri: IgnitionOpcUaEndpoint,
